@@ -4,7 +4,6 @@ import time
 import metapy
 import pytoml
 
-
 def load_ranker(cfg_file):
     """
     Use this function to return the Ranker object to evaluate, 
