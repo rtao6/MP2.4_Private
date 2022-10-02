@@ -5,33 +5,13 @@ import metapy
 import pytoml
 
 
-class InL2Ranker(metapy.index.RankingFunction):
-    """
-    Create a new ranking function in Python that can be used in MeTA.
-    """
-    def __init__(self, some_param=1.0):
-        self.param = some_param
-        # You *must* call the base class constructor here!
-        super(InL2Ranker, self).__init__()
-
-    def score_one(self, sd):
-        """
-        You need to override this function to return a score for a single term.
-        For fields available in the score_data sd object,
-        @see https://meta-toolkit.org/doxygen/structmeta_1_1index_1_1score__data.html
-        """
-        tfn = sd.doc_term_count * math.log(1.0 + sd.avg_dl / sd.doc_size,2)
-        return sd.query_term_weight * (tfn / (tfn + self.param)) * math.log( (sd.num_docs + 1)  / (sd.corpus_term_count + 0.5),2)
-
-
 def load_ranker(cfg_file):
     """
     Use this function to return the Ranker object to evaluate, 
     The parameter to this function, cfg_file, is the path to a
     configuration file used to load the index.
     """
-    # return metapy.index.OkapiBM25(k1=1.525, b=0.75, k3=3.235)
-    return InL2Ranker(some_param=1.0)
+    return metapy.index.OkapiBM25(k1=2,b=0.6,k3=400)
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
